@@ -6,5 +6,6 @@ global using System.Threading.Tasks;
 global using static System.Console;
 global using static System.Linq.Enumerable;
 global using NLog.Web;
+global using SoilDataManagement.Engine;
 
 
