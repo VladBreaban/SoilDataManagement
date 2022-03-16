@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SoilDataManagement.Models;
 
 namespace SoilDataManagement.Controllers
 {
@@ -8,16 +9,16 @@ namespace SoilDataManagement.Controllers
     {
 
         private readonly ILogger<NPKMainController> _logger;
-        private readonly DataManager _dataManager;
+        private readonly IDataManager _dataManager;
 
-        public NPKMainController(ILogger<NPKMainController> logger, DataManager dataManager)
+        public NPKMainController(ILogger<NPKMainController> logger, IDataManager dataManager)
         {
             _logger = logger;
             _dataManager = dataManager; 
         }
 
-        [HttpPost(Name = "InsertToDb")]
-        public bool InsertToDb(string nitro,string phosphoros, string potassium)
+        [HttpPost]
+        public bool InsertToDb([FromBody] MeasuredData data)
         {
             _logger.LogInformation("Hello world");
             return true;    
