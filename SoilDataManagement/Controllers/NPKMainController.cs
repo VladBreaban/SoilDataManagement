@@ -17,9 +17,10 @@ namespace SoilDataManagement.Controllers
             _dataManager = dataManager; 
         }
 
-        [HttpPost]
-        public bool InsertToDb([FromBody] MeasuredData data)
+        [HttpGet]
+        public bool InsertToDb(string val1,string val2)
         {
+            var test = _dataManager.GetDataFromCloud();
             _logger.LogInformation("Hello world");
             return true;    
         }
