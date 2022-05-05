@@ -24,7 +24,8 @@ namespace SoilDataManagement.Engine
                 ;
                 var restClient = new RestClient(_thingSpeakOptionsMonitor.CurrentValue.BaseUrl);
                 var responseBytes =await restClient.DownloadDataAsync(restRequest);
-                await File.WriteAllBytesAsync(_thingSpeakOptionsMonitor.CurrentValue.SaveFilePath, responseBytes);
+                var path = Path.Combine(_thingSpeakOptionsMonitor.CurrentValue.SaveFilePath, DateTime.Now.ToString("yyyyMMdd") + "values.csv");
+                await File.WriteAllBytesAsync(path, responseBytes);
             }
             catch(Exception ex)
             {
