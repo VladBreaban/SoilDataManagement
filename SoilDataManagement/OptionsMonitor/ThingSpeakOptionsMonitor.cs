@@ -8,5 +8,7 @@ public class ThingSpeakOptionsMonitor
     public string? FileNname { get; set; }
     
     public string? BaseUrl { get; set; }
+
+    public string? SaveFilePath { get; set; }
 }
 

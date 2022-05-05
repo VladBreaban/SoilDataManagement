@@ -18,12 +18,13 @@ namespace SoilDataManagement.Engine
             var endpoint = String.Format(_thingSpeakOptionsMonitor.CurrentValue.UrlFormat, _thingSpeakOptionsMonitor.CurrentValue.ChannelId, _thingSpeakOptionsMonitor.CurrentValue.FileNname);
             try
             {
-                var restRequest = new RestRequest(endpoint,Method.Get)
-                                    //  .AddParameter("all", false, ParameterType.QueryString)
+                var restRequest = new RestRequest(endpoint, Method.Get)
+                                      //  .AddParameter("all", false, ParameterType.QueryString)
                                       .AddHeader("content-type", "application/json");
+                ;
                 var restClient = new RestClient(_thingSpeakOptionsMonitor.CurrentValue.BaseUrl);
-                var response =await restClient.ExecuteAsync(restRequest);
-                string content = response.Content;
+                var responseBytes =await restClient.DownloadDataAsync(restRequest);
+                await File.WriteAllBytesAsync(_thingSpeakOptionsMonitor.CurrentValue.SaveFilePath, responseBytes);
             }
             catch(Exception ex)
             {

@@ -20,8 +20,16 @@ namespace SoilDataManagement.Controllers
         [HttpGet]
         public bool InsertToDb(string val1,string val2)
         {
-            var test = _dataManager.GetDataFromCloud();
-            _logger.LogInformation("Hello world");
+            try
+            {
+                var test = _dataManager.GetDataFromCloud();
+                _logger.LogInformation("Hello world");
+            }
+            catch(Exception ex)
+            {
+                var test = ex.Message;
+            }
+
             return true;    
         }
     }
