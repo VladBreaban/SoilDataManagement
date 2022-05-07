@@ -1,6 +1,3 @@
-
-using DataGetter.OptionMonitor;
-
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var fact = NLogBuilder.ConfigureNLog("nlog.config");
@@ -14,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddTransient<IDataManager, DataManager>();
+builder.Services.AddTransient<IDataManager, Manager>();
 builder.Services.AddTransient<IWorker, Worker>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 

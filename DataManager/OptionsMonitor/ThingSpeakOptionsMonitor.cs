@@ -1,4 +1,4 @@
-﻿namespace DataGetter.OptionMonitor;
+﻿namespace DataManager.OptionsMonitor;
 
 public class ThingSpeakOptionsMonitor
 {

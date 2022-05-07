@@ -15,19 +15,18 @@ public class NPKMainController : ControllerBase
     }
 
     [HttpGet]
-    public bool GetAllDataFromCloud()
+    public async Task<string> GetAllDataFromCloud()
     {
-        var result = true;
+        string path = String.Empty;
         try
         {
-            var test = _dataManager.GetAllDataFromCloud();
+            path = await _dataManager.GetAllDataFromCloud();
         }
         catch (Exception ex)
         {
-            result = false;
             _logger.LogError(ex, ex.Message);
         }
 
-        return result;
+        return path;
     }
 }

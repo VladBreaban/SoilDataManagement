@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataGetter\DataGetter.csproj" />
+    <ProjectReference Include="..\DataCleaner\DataCleaner.csproj" />
+    <ProjectReference Include="..\DataManager\DataManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
