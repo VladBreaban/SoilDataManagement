@@ -1,6 +1,7 @@
 ﻿namespace DataCleaner;
 
-    internal class IDataCleaner
-    {
-    }
+public interface IDataCleaner
+{
+    Task<string> GetCleanData(string fileToBeCleanedPath);
+}
 

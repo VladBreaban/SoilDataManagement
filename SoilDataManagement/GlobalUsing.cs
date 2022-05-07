@@ -13,6 +13,8 @@ global using Microsoft.Extensions.Options;
 global using DataManager.Engine;
 global using Microsoft.AspNetCore.Mvc;
 global using DataManager.OptionsMonitor;
+global using DataCleaner;
+
 
 
 
