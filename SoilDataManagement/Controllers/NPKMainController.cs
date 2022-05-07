@@ -1,36 +1,33 @@
-using Microsoft.AspNetCore.Mvc;
-using SoilDataManagement.Models;
+namespace SoilDataManagement.Controllers;
 
-namespace SoilDataManagement.Controllers
+[ApiController]
+[Route("NPKMainController/[action]")]
+public class NPKMainController : ControllerBase
 {
-    [ApiController]
-    [Route("NPKMainController/[action]")]
-    public class NPKMainController : ControllerBase
+
+    private readonly ILogger<NPKMainController> _logger;
+    private readonly IDataManager _dataManager;
+
+    public NPKMainController(ILogger<NPKMainController> logger, IDataManager dataManager)
     {
+        _logger = logger;
+        _dataManager = dataManager;
+    }
 
-        private readonly ILogger<NPKMainController> _logger;
-        private readonly IDataManager _dataManager;
-
-        public NPKMainController(ILogger<NPKMainController> logger, IDataManager dataManager)
+    [HttpGet]
+    public bool GetAllDataFromCloud()
+    {
+        var result = true;
+        try
         {
-            _logger = logger;
-            _dataManager = dataManager; 
+            var test = _dataManager.GetAllDataFromCloud();
+        }
+        catch (Exception ex)
+        {
+            result = false;
+            _logger.LogError(ex, ex.Message);
         }
 
-        [HttpGet]
-        public bool InsertToDb(string val1,string val2)
-        {
-            try
-            {
-                var test = _dataManager.GetDataFromCloud();
-                _logger.LogInformation("Hello world");
-            }
-            catch(Exception ex)
-            {
-                var test = ex.Message;
-            }
-
-            return true;    
-        }
+        return result;
     }
 }
