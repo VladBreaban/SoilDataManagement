@@ -14,6 +14,7 @@ builder.Services.AddCors();
 builder.Services.AddTransient<IDataManager, Manager>();
 builder.Services.AddTransient<IDataCleaner, Cleaner>();
 builder.Services.AddTransient<IWorker, Worker>();
+builder.Services.AddTransient<IElasticClient,ElasticClient>();  
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
 var app = builder.Build();
