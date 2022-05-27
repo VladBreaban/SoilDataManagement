@@ -1,4 +1,4 @@
-﻿namespace SoilDataManagement.Models
+﻿namespace DataManager.Models
 {
     public class MeasuredData
     {
