@@ -5,7 +5,7 @@
 #define RX 10
 #define TX 11
 String AP = "DIGI-37Bt";       // CHANGE ME
-String PASS = "sE8SC2JE"; // CHANGE ME
+String PASS = "safa;sf'"; // CHANGE ME
 String API = "2063CFKFUTBRH1T9";   // CHANGE ME
 String HOST = "api.thingspeak.com";
 String PORT = "80";
