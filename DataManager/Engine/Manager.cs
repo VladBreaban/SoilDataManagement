@@ -22,21 +22,7 @@ public class Manager : IDataManager
             _logger.LogInformation($"Getting data from {endpoint}");
             var restRequest = new RestRequest(endpoint, Method.Get)
                                   .AddHeader("content-type", "application/json");
-
-            var restClient = new RestClient(_thingSpeakOptionsMonitor.CurrentValue.BaseUrl);
-            var responseBytes = await restClient.DownloadDataAsync(restRequest);
-            var path = Path.Combine(_thingSpeakOptionsMonitor.CurrentValue.SaveFilePath, DateTime.Now.ToString("yyyyMMdd") + "values.csv");
-            await File.WriteAllBytesAsync(path, responseBytes);
-            if (File.Exists(path))
-            {
-                return path;
-            }
-            else
-            {
-                var message = $"Something went wrong, the file was not properly saved. RestUrl {endpoint}";
-                _logger.LogError(message);
-                throw new Exception(message);
-            }
+            result = await ExecuteRestRequest(restRequest);
         }
         catch (Exception ex)
         {
@@ -52,23 +38,9 @@ public class Manager : IDataManager
         {
             _logger.LogInformation($"Getting data from {endpoint}");
             var restRequest = new RestRequest(endpoint, Method.Get)
-                                  //  .AddParameter("all", false, ParameterType.QueryString)
                                   .AddHeader("content-type", "application/json");
-            ;
             var restClient = new RestClient(_thingSpeakOptionsMonitor.CurrentValue.BaseUrl);
-            var responseBytes = await restClient.DownloadDataAsync(restRequest);
-            var path = Path.Combine(_thingSpeakOptionsMonitor.CurrentValue.SaveFilePath, DateTime.Now.ToString("yyyyMMdd") + "values.csv");
-            await File.WriteAllBytesAsync(path, responseBytes);
-            if (File.Exists(path))
-            {
-                return path;
-            }
-            else
-            {
-                var message = $"Something went wrong, the file was not properly saved. RestUrl {endpoint}";
-                _logger.LogError(message);
-                throw new Exception(message);
-            }
+            result = await ExecuteRestRequest(restRequest);
         }
         catch (Exception ex)
         {
