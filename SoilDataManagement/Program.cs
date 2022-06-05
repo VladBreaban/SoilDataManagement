@@ -1,5 +1,6 @@
 using Nest;
 using RestSharp;
+using SoilDataManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -21,7 +22,8 @@ builder.Services.AddTransient<IDataCleaner, Cleaner>();
 builder.Services.AddTransient<IWorker, Worker>();
 builder.Services.AddTransient<IElasticClient, Nest.ElasticClient>();
 builder.Services.AddTransient<ElasticSearchClient>(x=> new ElasticSearchClient(elasticMetrictsUrl));
-builder.Services.AddTransient<IElasticHelper, ElasticHelper>();  
+builder.Services.AddTransient<IElasticHelper, ElasticHelper>();
+builder.Services.AddHostedService<ElasticDataSender>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
 var app = builder.Build();

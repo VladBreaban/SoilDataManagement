@@ -2,9 +2,12 @@
 
 public class Worker : IWorker
 {
-    public Task DoWork(CancellationToken cancelToken)
+    public async Task DoWork(CancellationToken cancelToken)
     {
-        throw new NotImplementedException();
+        while (!cancelToken.IsCancellationRequested)
+        {
+
+        }
     }
 }
 
