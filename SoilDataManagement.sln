@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoilDataManagement", "SoilD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCleaner", "DataCleaner\DataCleaner.csproj", "{F048F526-0DD7-45D9-AC80-58353EF00890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManager", "DataManager\DataManager.csproj", "{F6FE5C2E-371C-4F6C-A2D3-60495A866610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManager", "DataManager\DataManager.csproj", "{F6FE5C2E-371C-4F6C-A2D3-60495A866610}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArduinoCode", "ArduinoCode", "{DA4C9E61-B4A0-4A3B-B82F-158CEB9451BA}"
+	ProjectSection(SolutionItems) = preProject
+		NPKDataCollector.ino = NPKDataCollector.ino
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
