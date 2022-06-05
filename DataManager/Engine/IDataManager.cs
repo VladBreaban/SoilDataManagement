@@ -2,7 +2,8 @@
 
 public interface IDataManager
 {
-    Task InsertDataToDb();
 
     Task<string> GetAllDataFromCloud();
+
+    Task<string> GetDataBetweenTimeInterval(string startDate, string endDate);
 }
