@@ -1,7 +1,9 @@
-﻿namespace DataCleaner;
+﻿using DataManager.Models;
+
+namespace DataCleaner;
 
 public interface IDataCleaner
 {
-    Task<string> GetCleanData(string fileToBeCleanedPath);
+    Task<List<MeasuredData>> GetCleanData(string fileToBeCleanedPath);
 }
 

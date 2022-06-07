@@ -9,7 +9,7 @@ public class ElasticHelper : IElasticHelper
     {
         _elasticSearchClient = elasticSearchClient;
     }
-    public async Task<IndexResponse> IndexAsync(MeasuredData data, string index, string id = null)
+    public async Task<IndexResponse> IndexAsync<T>(T data, string index, string id = null) where T : class
     {
         try
         {
@@ -18,7 +18,7 @@ public class ElasticHelper : IElasticHelper
             if (!indexExists.Exists)
             {
                 var response = await myClient.Indices.CreateAsync(index,
-                   index => index.Map<MeasuredData>(
+                   index => index.Map<T>(
                        x => x.AutoMap()
                    ));
             }

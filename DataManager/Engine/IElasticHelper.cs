@@ -4,6 +4,6 @@ namespace DataManager.Engine;
 
     public interface IElasticHelper
     {
-    Task<IndexResponse> IndexAsync(MeasuredData data, string index, string id = null);
+    Task<IndexResponse> IndexAsync<T>(T data, string index, string id = null) where T : class;
    }
 

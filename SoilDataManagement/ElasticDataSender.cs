@@ -13,12 +13,12 @@
 
         public async Task StartAsync(CancellationToken cancelToken)
         {
-            await _worker.DoWork(cancelToken);
+        await _worker.DoWork(cancelToken);
         }
 
         public Task StopAsync(CancellationToken cancelToken)
         {
-            _logger.LogWarning("GiveYuriRights background service stopping...");
+            _logger.LogWarning("ElasticDataSender service stopping...");
             return Task.CompletedTask;
         }
     }

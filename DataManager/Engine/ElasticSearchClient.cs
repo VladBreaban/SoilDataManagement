@@ -21,7 +21,7 @@ public class ElasticSearchClient
         var connectionPool = new StaticConnectionPool(nodes);
         var connectionSettings = new ConnectionSettings(connectionPool)
             //do not hardcode, move to appsettings replacebale during yml, WIP
-                               .BasicAuthentication("blablalba", "blalablalas").DisableDirectStreaming();
+                               .BasicAuthentication("elastic", "1adminElastic").DisableDirectStreaming();
         var elasticClient = new ElasticClient(connectionSettings.DefaultIndex("soil-data"));
         return elasticClient;
     }

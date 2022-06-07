@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DataManager.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text;
 
@@ -19,13 +20,13 @@ public class Cleaner : IDataCleaner
     ///Used for this project can measure data only up to the value of 255 for all of the three chemical components
     ///And, as a sensor, there may be erroneous measurements, with values over 255 that will be considered redundant data and we will eliminate themA
     ///</summary>
-    public async Task<string> GetCleanData(string fileToBeCleanedPath)
+    public async Task<List<MeasuredData>> GetCleanData(string fileToBeCleanedPath)
     {
+        List<MeasuredData> data = new List<MeasuredData>(); 
         string[] csvLines = await File.ReadAllLinesAsync(fileToBeCleanedPath);
         StringBuilder sb = new StringBuilder();
         int i = 0;
         int maxSensorValue = _dataCleanerOptionsMonitor.CurrentValue.MaxSensorValue;
-        var path = Path.Combine(_dataCleanerOptionsMonitor.CurrentValue.DesiredCleanedFileLocation, DateTime.Now.ToString("yyyyMMdd") + "cleanData.csv");
 
         foreach (string csvLine in csvLines)
         {
@@ -51,6 +52,13 @@ public class Cleaner : IDataCleaner
                     //4-->K(potassium) measured value;
                     string newLine = string.Join(",", lineValues.ElementAt(0), lineValues.ElementAt(2), lineValues.ElementAt(3), lineValues.ElementAt(4));
                     sb.Append(newLine + Environment.NewLine);
+                    data.Add(new MeasuredData
+                    {
+                        DataEntry = Convert.ToDateTime(lineValues.ElementAt(0)),
+                        nitro = lineValues.ElementAt(2),
+                        phosphoros = lineValues.ElementAt(3),
+                        potassium = lineValues.ElementAt(4)
+                    });
                 }
                 else
                 {
@@ -60,17 +68,8 @@ public class Cleaner : IDataCleaner
             }
             i++;
         }
-        await File.WriteAllTextAsync(path, sb.ToString());
 
-        if(File.Exists(path))
-        {
-            File.Delete(fileToBeCleanedPath);
-            return path;
-        }
-        else
-        {
-            throw new Exception($"Cleaned file does not exist. Possible path:{path} ");
-        }
+        return data;
 
 
     }
