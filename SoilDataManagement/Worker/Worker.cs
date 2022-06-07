@@ -24,6 +24,11 @@ public class Worker : IWorker
             if ((now > start) && (now < end))
             {
                 //match found --> get data from thinkspeak and send them to elastic server
+                var allDataPath = await _dataManager.GetDataBetweenTimeInterval("", "");
+
+                var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
+
+                await _elasticHelper.IndexAsync(new DataManager.Models.MeasuredData(), "soil-data");
 
             }
 
