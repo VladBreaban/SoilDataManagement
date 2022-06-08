@@ -13,7 +13,7 @@
 
         public async Task StartAsync(CancellationToken cancelToken)
         {
-        await _worker.DoWork(cancelToken);
+        _ = _worker.DoWork(cancelToken);
         }
 
         public Task StopAsync(CancellationToken cancelToken)

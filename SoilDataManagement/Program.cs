@@ -3,16 +3,13 @@ using RestSharp;
 using SoilDataManagement;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Host.UseWindowsService().ConfigureServices(services=>services.AddHostedService<ElasticDataSender>()); 
-
 // Add services to the container.
 var fact = NLogBuilder.ConfigureNLog("nlog.config");
 var logger = fact.GetCurrentClassLogger();
 builder.Host.UseNLog();
 builder.WebHost.UseKestrel();
 //builder.WebHost.UseUrls("http://*:7075");
-builder.WebHost.UseIIS();
+//builder.WebHost.UseIIS();
 builder.Services.AddControllers();
 var elasticMetrictsUrl = builder.Configuration.GetValue<string>("MetricsElasticUri") ?? "http://lb-2kag5kqqav4cg.centralus.cloudapp.azure.com:9200/";
 
@@ -28,6 +25,10 @@ builder.Services.AddTransient<ElasticSearchClient>(x=> new ElasticSearchClient(e
 builder.Services.AddTransient<IElasticHelper, ElasticHelper>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
+
+builder.Services.AddHostedService<ElasticDataSender>();
+builder.Host.UseWindowsService();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

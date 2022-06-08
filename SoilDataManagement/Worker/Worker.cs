@@ -15,6 +15,7 @@ public class Worker : IWorker
     }
     public async Task DoWork(CancellationToken cancelToken)
     {
+        await Task.Yield();
         // to do--> make it configurable
         TimeSpan start = new TimeSpan(20, 0, 0); //10 o'clock
         TimeSpan end = new TimeSpan(20,10, 0); //12 o'clock
