@@ -48,11 +48,4 @@ public class NPKMainController : ControllerBase
         return path;
     }
 
-    [HttpGet]
-
-    public async Task TestController()
-    {
-        var TEST = await _elasticHelper.IndexAsync(new DataManager.Models.MeasuredData { nitro = 40.ToString(), phosphoros = 10.ToString(), potassium = 20.ToString() }, "soil-data");
-        return;
-    }
 }

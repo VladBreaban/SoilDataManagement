@@ -21,16 +21,24 @@ public class Worker : IWorker
         TimeSpan end = new TimeSpan(20,10, 0); //12 o'clock
         while (!cancelToken.IsCancellationRequested)
         {
-            var now = DateTime.Now.TimeOfDay;
-            if ((now > start) && (now < end))
+            try
             {
-                //match found --> get data from thinkspeak and send them to elastic server
-                var allDataPath = await _dataManager.GetDataBetweenTimeInterval("", "");
+                var now = DateTime.Now.TimeOfDay;
+                if ((now > start) && (now < end))
+                {
+                    _logger.LogInformation("Sending data to elastic...");
+                    //match found --> get data from thinkspeak and send them to elastic server
+                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
 
-                var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
+                    var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
 
-                await _elasticHelper.IndexAsync(new DataManager.Models.MeasuredData(), "soil-data");
+                    await _elasticHelper.IndexAsync(new DataManager.Models.MeasuredData(), "soil-data");
 
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"Error occured while executing background task: {ex.Message}");
             }
 
         }

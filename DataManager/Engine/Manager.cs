@@ -17,9 +17,10 @@ public class Manager : IDataManager
         var endpoint = String.Format(_thingSpeakOptionsMonitor.CurrentValue.UrlFormat, _thingSpeakOptionsMonitor.CurrentValue.ChannelId, _thingSpeakOptionsMonitor.CurrentValue.FileNname);
 
         endpoint = endpoint + "?start=" + startDate + "&end=" + endDate;
+
+        _logger.LogInformation($"Endpoint used while getting data between {startDate}-{endDate}: {endpoint}");
         try
         {
-            _logger.LogInformation($"Getting data from {endpoint}");
             var restRequest = new RestRequest(endpoint, Method.Get)
                                   .AddHeader("content-type", "application/json");
             result = await ExecuteRestRequest(restRequest);
