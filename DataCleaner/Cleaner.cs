@@ -1,6 +1,7 @@
 ﻿using DataManager.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 using System.Text;
 
 namespace DataCleaner;
@@ -54,7 +55,7 @@ public class Cleaner : IDataCleaner
                     sb.Append(newLine + Environment.NewLine);
                     data.Add(new MeasuredData
                     {
-                        CreatedDate = Convert.ToDateTime(lineValues.ElementAt(0)),
+                        CreatedDate = DateTimeOffset.Parse(lineValues.ElementAt(0)).UtcDateTime,
                         N = float.Parse(lineValues.ElementAt(2)),
                         P = float.Parse(lineValues.ElementAt(3)),
                         K = float.Parse(lineValues.ElementAt(4)),
