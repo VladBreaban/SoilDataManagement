@@ -9,6 +9,6 @@ namespace DataManager.MachineLearning
 {
     public interface IMLPredictor
     {
-        void TrainAndPredict(MLContext mlContext, string cleanDataPath, string modelPath);
+        void TrainAndPredict(string cleanDataPath, string modelPath);
     }
 }

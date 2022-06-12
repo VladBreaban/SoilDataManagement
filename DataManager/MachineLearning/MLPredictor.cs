@@ -22,14 +22,14 @@ namespace DataManager.MachineLearning
         }
 
 
-        public void TrainAndPredict(MLContext mlContext, string cleanDataPath, string modelPath)
+        public void TrainAndPredict(string cleanDataPath, string modelPath)
         {
             //loading data from datasource.
-            IDataView dataView = mlContext.Data.LoadFromTextFile<MeasuredData>(cleanDataPath, hasHeader: true, separatorChar: ','); 
-            IDataView firstYearData = mlContext.Data.FilterRowsByColumn(dataView, "Year", upperBound: 1);
-            IDataView secondYearData = mlContext.Data.FilterRowsByColumn(dataView, "Year", lowerBound: 1);
+            IDataView dataView = _mlContext.Data.LoadFromTextFile<MeasuredData>(cleanDataPath, hasHeader: true, separatorChar: ','); 
+            IDataView firstYearData = _mlContext.Data.FilterRowsByColumn(dataView, "Year", upperBound: 1);
+            IDataView secondYearData = _mlContext.Data.FilterRowsByColumn(dataView, "Year", lowerBound: 1);
 
-            var forecastingPipeline = mlContext.Forecasting.ForecastBySsa(
+            var forecastingPipeline = _mlContext.Forecasting.ForecastBySsa(
             outputColumnName: "forecastedN",
             inputColumnName: "N",
             windowSize: 7,
@@ -42,12 +42,12 @@ namespace DataManager.MachineLearning
 
             SsaForecastingTransformer forecaster = forecastingPipeline.Fit(firstYearData);
 
-            Evaluate(secondYearData, forecaster, mlContext);
-            var forecastEngine = forecaster.CreateTimeSeriesEngine<MeasuredData, MeasuredDataPredictedOutputValues>(mlContext);
+            Evaluate(secondYearData, forecaster, _mlContext);
+            var forecastEngine = forecaster.CreateTimeSeriesEngine<MeasuredData, MeasuredDataPredictedOutputValues>(_mlContext);
 
-            forecastEngine.CheckPoint(mlContext, modelPath);
+            forecastEngine.CheckPoint(_mlContext, modelPath);
             //7== over 7 years
-            Forecast(secondYearData, 7, forecastEngine, mlContext);
+            Forecast(secondYearData, 7, forecastEngine, _mlContext);
 
         }
 
