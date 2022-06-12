@@ -54,10 +54,11 @@ public class Cleaner : IDataCleaner
                     sb.Append(newLine + Environment.NewLine);
                     data.Add(new MeasuredData
                     {
-                        DataEntry = Convert.ToDateTime(lineValues.ElementAt(0)),
-                        nitro = lineValues.ElementAt(2),
-                        phosphoros = lineValues.ElementAt(3),
-                        potassium = lineValues.ElementAt(4)
+                        CreatedDate = Convert.ToDateTime(lineValues.ElementAt(0)),
+                        N = float.Parse(lineValues.ElementAt(2)),
+                        P = float.Parse(lineValues.ElementAt(3)),
+                        K = float.Parse(lineValues.ElementAt(4)),
+                        year=0
                     });
                 }
                 else

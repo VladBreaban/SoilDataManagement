@@ -1,14 +1,16 @@
 ﻿namespace DataManager.Models;
 
-    public class MeasuredData
-    {
-        public string nitro { get; set; }
+public class MeasuredData
+{
+    public float N { get; set; }
 
-        public string phosphoros { get; set; }  
+    public float P { get; set; }
 
-        public string potassium { get; set; }
+    public float K { get; set; }
 
-        public DateTime DataEntry { get; set; }
+    public DateTime CreatedDate { get; set; }
+
+    public float year { get; set; }
 
     }
 
