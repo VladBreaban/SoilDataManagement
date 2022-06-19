@@ -15,81 +15,55 @@ public class MLPredictor : IMLPredictor
         _logger = logger;
         _mlContext = new MLContext(seed: 0);
     }
+    void TestSinglePrediction(ITransformer model)
+    {
+        var predictionFunction = _mlContext.Model.CreatePredictionEngine<NMeasured, NPredicted>(model);
+        var measuredPrediction = new NMeasured()
+        {
+            CreatedDate= DateTime.Now.AddDays(100),
+            N = 0 // To predict.
+        };
+        var prediction = predictionFunction.Predict(measuredPrediction);
+        Console.WriteLine($"Predicted fare: {prediction.N:0.####}, actual fare: 15.5");
+
+    }
+    ITransformer Train(MLContext mlContext, IDataView dataView)
+    {
+        var pipeline = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: "N")
+            .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "CreatedDateEncoded", inputColumnName: "CreatedDate"))
+
+            .Append(mlContext.Transforms.Concatenate("Features", "CreatedDateEncoded"))
+            .Append(mlContext.Regression.Trainers.FastForest());
+        var model = pipeline.Fit(dataView);
+        return model;
 
 
+    }
+    void Evaluate(MLContext mlContext, ITransformer model, IDataView secondYearData)
+    {
+        var predictions = model.Transform(secondYearData);
+        var metrics = mlContext.Regression.Evaluate(predictions, "Label", "Score");
+        Console.WriteLine($"*       RSquared Score:      {metrics.RSquared:0.##}");
+        Console.WriteLine($"*       Root Mean Squared Error:      {metrics.RootMeanSquaredError:#.##}");
+
+    }
     public void TrainAndPredict(string cleanDataPath, string modelPath)
     {
-        //loading data from datasource.
+        //loading data from datasource. --> used as train data because is typically larger than testing data
         IDataView dataView = _mlContext.Data.LoadFromTextFile<MeasuredData>(cleanDataPath, hasHeader: true, separatorChar: ',');
-        IDataView firstYearData = _mlContext.Data.FilterRowsByColumn(dataView, "year", upperBound: 1);
-        IDataView secondYearData = _mlContext.Data.FilterRowsByColumn(dataView, "year", lowerBound: 1);
+        //train data
+      //  IDataView firstYearData = _mlContext.Data.FilterRowsByColumn(dataView, "year", upperBound: 1);
 
-        var forecastingPipeline = _mlContext.Forecasting.ForecastBySsa(
-        outputColumnName: "forecastedN",
-        inputColumnName: "N",
-        windowSize: 7,
-        seriesLength: 30,
-        trainSize: 365,
-        horizon: 7,
-        confidenceLevel: 0.95f,
-        confidenceLowerBoundColumn: "lowerBoundN",
-        confidenceUpperBoundColumn: "upperBoundN");
+        //testData
+        IDataView testData = _mlContext.Data.FilterRowsByColumn(dataView, "year", lowerBound:0);
 
-        SsaForecastingTransformer forecaster = forecastingPipeline.Fit(firstYearData);
-
-        Evaluate(secondYearData, forecaster, _mlContext);
-        var forecastEngine = forecaster.CreateTimeSeriesEngine<MeasuredData, MeasuredDataPredictedOutputValues>(_mlContext);
-
-        forecastEngine.CheckPoint(_mlContext, modelPath);
-        //7== over 7 years
-        Forecast(secondYearData, 100, forecastEngine, _mlContext);
-
-    }
-
-    public void Evaluate(IDataView testData, ITransformer model, MLContext mlContext)
-    {
-        IDataView predictions = model.Transform(testData);
-        IEnumerable<float> actual =
-     mlContext.Data.CreateEnumerable<MeasuredData>(testData, true)
-    .Select(observed => observed.N);
-        IEnumerable<float> forecast =
-     mlContext.Data.CreateEnumerable<MeasuredDataPredictedOutputValues>(predictions, true)
-    .Select(prediction => prediction.forecastedN[0]);
-
-        var metrics = actual.Zip(forecast, (actualValue, forecastValue) => actualValue - forecastValue);
-
-        var MAE = metrics.Average(error => Math.Abs(error)); // Mean Absolute Error
-        var RMSE = Math.Sqrt(metrics.Average(error => Math.Pow(error, 2))); // Root Mean Squared Error
-
-    }
+        var model = Train(_mlContext, dataView);
 
 
-    void Forecast(IDataView testData, int horizon, TimeSeriesPredictionEngine<MeasuredData, MeasuredDataPredictedOutputValues> forecaster, MLContext mlContext)
-    {
-        MeasuredDataPredictedOutputValues forecast = forecaster.Predict();
-        IEnumerable<string> forecastOutput =
-mlContext.Data.CreateEnumerable<MeasuredData>(testData, reuseRowObject: false)
-    .Take(horizon)
-         .Select((MeasuredData rental, int index) =>
-        {
-        string measureDate = rental.CreatedDate.ToShortDateString();
-        float actualN = rental.N;
-        float lowerEstimate = Math.Max(0, forecast.lowerBoundN[index]);
-        float estimate = forecast.forecastedN[index];
-        float upperEstimate = forecast.upperBoundN[index];
-        return $"Date: {measureDate}\n" +
-        $"Actual N: {actualN}\n" +
-        $"Lower N: {lowerEstimate}\n" +
-        $"Forecast: {estimate}\n" +
-        $"Upper Estimate: {upperEstimate}\n";
-        });
+        Evaluate(_mlContext, model, testData);
 
-        Console.WriteLine("NForecast");
-        Console.WriteLine("---------------------");
-        foreach (var prediction in forecastOutput)
-        {
-            _logger.LogInformation(prediction);
-        }
+        TestSinglePrediction(model);
+
     }
 }
 
