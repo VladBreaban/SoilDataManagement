@@ -15,5 +15,8 @@ public class MeasuredData
     [LoadColumn(4)]
     public float year { get; set; }
 
-    }
+    [LoadColumn(5)]
+    public float Quantity { get; set; }
+
+}
 

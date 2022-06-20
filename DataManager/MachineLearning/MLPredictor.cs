@@ -20,7 +20,8 @@ public class MLPredictor : IMLPredictor
         var predictionFunction = _mlContext.Model.CreatePredictionEngine<NMeasured, NPredicted>(model);
         var measuredPrediction = new NMeasured()
         {
-            CreatedDate= DateTime.Now.AddDays(100),
+            CreatedDate = DateTime.Now.AddDays(100).ToString(),
+            Quantity = 60,
             N = 0 // To predict.
         };
         var prediction = predictionFunction.Predict(measuredPrediction);
@@ -31,8 +32,9 @@ public class MLPredictor : IMLPredictor
     {
         var pipeline = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: "N")
             .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "CreatedDateEncoded", inputColumnName: "CreatedDate"))
+            .Append(mlContext.Transforms.Categorical.OneHotEncoding(outputColumnName: "QuantityEncoded", inputColumnName: "Quantity"))
 
-            .Append(mlContext.Transforms.Concatenate("Features", "CreatedDateEncoded"))
+            .Append(mlContext.Transforms.Concatenate("Features", "CreatedDateEncoded", "QuantityEncoded"))
             .Append(mlContext.Regression.Trainers.FastForest());
         var model = pipeline.Fit(dataView);
         return model;

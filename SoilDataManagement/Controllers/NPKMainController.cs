@@ -52,7 +52,23 @@ public class NPKMainController : ControllerBase
 
         return path;
     }
+    [HttpGet]
+    public async Task<string> GetDataToPredict(string desiredField)
+    {
+        string path = String.Empty;
+        try
+        {
+            var allDatapath = await _dataManager.GetAllDataFromCloud();
 
+            path = await _dataCleaner.GenerateCleanDataFileForACertainField(allDatapath, desiredField);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+        }
+
+        return path;
+    }
     [HttpGet]
     public async Task<string> PredictDataOverXYear()
     {

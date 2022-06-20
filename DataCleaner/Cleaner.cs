@@ -21,6 +21,42 @@ public class Cleaner : IDataCleaner
     ///Used for this project can measure data only up to the value of 255 for all of the three chemical components
     ///And, as a sensor, there may be erroneous measurements, with values over 255 that will be considered redundant data and we will eliminate themA
     ///</summary>
+    ///
+
+    public async Task<string> GenerateCleanDataFileForACertainField(string path, string field)
+    {
+        StringBuilder sb = new StringBuilder();
+        var dataPredictionPath = Path.Combine(_dataCleanerOptionsMonitor.CurrentValue.DesiredCleanedFileLocation, DateTime.Now.ToString("yyyyMMdd") + "cleanData.csv");
+        string newLineHeader = string.Join(",", "CreatedDate", "N");
+        sb.Append(newLineHeader + Environment.NewLine);
+        var allCleanedMeasuredData = await GetCleanData(path);
+        if (allCleanedMeasuredData == null)
+            return "";
+    
+        foreach(var measure in allCleanedMeasuredData)
+        {
+            string toBeConcatenate = "";
+            switch (field)
+            {
+                case "N": toBeConcatenate = measure.N.ToString(); break;
+                case "P": toBeConcatenate = measure.P.ToString(); break;
+                case "K": toBeConcatenate =  measure.K.ToString(); break;
+                default: toBeConcatenate = ""; break;
+            }
+
+            if(toBeConcatenate == "")
+            {
+                continue;
+            }
+            string newLine = string.Join(",", measure.CreatedDate, toBeConcatenate);
+            sb.Append(newLine + Environment.NewLine);
+
+        }
+        await File.WriteAllTextAsync(dataPredictionPath, sb.ToString());
+
+        return dataPredictionPath;
+
+    }
     public async Task<List<MeasuredData>> GetCleanData(string fileToBeCleanedPath)
     {
         List<MeasuredData> data = new List<MeasuredData>(); 
@@ -34,7 +70,7 @@ public class Cleaner : IDataCleaner
             //first line contains columns title
             if(i==0)
             {
-                string newLine = string.Join(",","CreatedDate","N","P","K");
+                string newLine = string.Join(",","CreatedDate","N");
                 sb.Append(newLine + Environment.NewLine);
             }
             else
@@ -53,9 +89,11 @@ public class Cleaner : IDataCleaner
                     //4-->K(potassium) measured value;
                     string newLine = string.Join(",", lineValues.ElementAt(0), lineValues.ElementAt(2), lineValues.ElementAt(3), lineValues.ElementAt(4));
                     sb.Append(newLine + Environment.NewLine);
+                    DateTime createdDate;
+                    DateTime.TryParseExact(lineValues.ElementAt(0), "yyyy-MM-dd HH:mm:ss UTC", CultureInfo.InvariantCulture, DateTimeStyles.None, out createdDate);
                     data.Add(new MeasuredData
                     {
-                        CreatedDate = DateTimeOffset.Parse(lineValues.ElementAt(0)).UtcDateTime,
+                        CreatedDate = createdDate,
                         N = float.Parse(lineValues.ElementAt(2)),
                         P = float.Parse(lineValues.ElementAt(3)),
                         K = float.Parse(lineValues.ElementAt(4)),
