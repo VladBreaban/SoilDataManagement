@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArduinoCode", "ArduinoCode", "{DA4C9E61-B4A0-4A3B-B82F-158CEB9451BA}"
 	ProjectSection(SolutionItems) = preProject
 		NPKDataCollector.ino = NPKDataCollector.ino
+		predict.py = predict.py
 	EndProjectSection
 EndProject
 Global
