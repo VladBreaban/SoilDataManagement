@@ -33,6 +33,7 @@ public class NPKMainController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
 
         }
     }
@@ -44,38 +45,6 @@ public class NPKMainController : ControllerBase
         try
         {
             path = await _dataManager.GetAllDataFromCloud();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-        }
-
-        return path;
-    }
-    [HttpGet]
-    public async Task<string> GetDataToPredict(string desiredField)
-    {
-        string path = String.Empty;
-        try
-        {
-            var allDatapath = await _dataManager.GetAllDataFromCloud();
-
-            path = await _dataCleaner.GenerateCleanDataFileForACertainField(allDatapath, desiredField);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-        }
-
-        return path;
-    }
-    [HttpGet]
-    public async Task<string> PredictDataOverXYear()
-    {
-        string path = String.Empty;
-        try
-        {
-            _mlPredictor.TrainAndPredict(@"C:\Users\Vlad\Desktop\net6\20220507cleanData.csv", @"C:\Users\Vlad\Desktop\net6\MLModel.zip");
         }
         catch (Exception ex)
         {
