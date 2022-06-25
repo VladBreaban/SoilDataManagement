@@ -57,6 +57,7 @@ public class Cleaner : IDataCleaner
         return dataPredictionPath;
 
     }
+
     public async Task<List<MeasuredData>> GetCleanData(string fileToBeCleanedPath)
     {
         List<MeasuredData> data = new List<MeasuredData>(); 
@@ -96,8 +97,7 @@ public class Cleaner : IDataCleaner
                         CreatedDate = createdDate,
                         N = float.Parse(lineValues.ElementAt(2)),
                         P = float.Parse(lineValues.ElementAt(3)),
-                        K = float.Parse(lineValues.ElementAt(4)),
-                        year=0
+                        K = float.Parse(lineValues.ElementAt(4))
                     });
                 }
                 else

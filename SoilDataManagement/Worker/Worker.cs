@@ -1,4 +1,6 @@
-﻿namespace SoilDataManagement.Worker;
+﻿using DataManager.Models;
+
+namespace SoilDataManagement.Worker;
 
 public class Worker : IWorker
 {
@@ -6,12 +8,14 @@ public class Worker : IWorker
     private readonly IDataManager _dataManager;
     private readonly IDataCleaner _dataCleaner;
     private readonly IElasticHelper _elasticHelper;
-    public Worker(ILogger<Worker> logger, IDataManager dataManager, IDataCleaner dataCleaner, IElasticHelper elasticHelper)
+    private readonly IOptionsMonitor<PredictionFileOptionsMonitor> _optionsMonitor;
+    public Worker(ILogger<Worker> logger, IDataManager dataManager, IDataCleaner dataCleaner, IElasticHelper elasticHelper, IOptionsMonitor<PredictionFileOptionsMonitor> optionsMonitor)
     {
         _logger = logger;
         _dataManager = dataManager;
         _dataCleaner = dataCleaner;
         _elasticHelper = elasticHelper;
+        _optionsMonitor = optionsMonitor;
     }
     public async Task DoWork(CancellationToken cancelToken)
     {
@@ -26,13 +30,16 @@ public class Worker : IWorker
                 var now = DateTime.Now.TimeOfDay;
                 if ((now > start) && (now < end))
                 {
+                    StringBuilder sb = new StringBuilder();
                     _logger.LogInformation("Sending data to elastic...");
                     //match found --> get data from thinkspeak and send them to elastic server
                     var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
 
                     var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
 
-                    await _elasticHelper.IndexAsync(new DataManager.Models.MeasuredData(), "soil-data");
+                    cleanedData.ForEach(async x=> { await _elasticHelper.IndexAsync(x, "soil-data"); });
+
+                    await GeneratePredicitonFiles(cleanedData);
 
                 }
             }
@@ -42,6 +49,36 @@ public class Worker : IWorker
             }
 
         }
+    }
+
+    private async Task WriteInCorrespondingFile(string value, string path)
+    {
+        StringBuilder sb = new StringBuilder();
+        if (!File.Exists(path))
+        {
+            string newLineHeader = string.Join(",", "CreatedDate", "Value");
+            sb.Append(newLineHeader + Environment.NewLine);
+            sb.Append(value + Environment.NewLine);
+            await File.WriteAllTextAsync(path, sb.ToString());
+
+        }
+        else
+        {
+            sb.Append(value + Environment.NewLine);
+            await File.AppendAllTextAsync(path, sb.ToString());
+        }
+    }
+
+    private async Task GeneratePredicitonFiles(List<MeasuredData> data)
+    {
+        var avgN = data.Select(x => x.N).Average();
+        var avgP = data.Select(x => x.P).Average();
+        var avgK = data.Select(x => x.K).Average();
+
+        await WriteInCorrespondingFile(avgN.ToString(), _optionsMonitor.CurrentValue.PredictFilePathN);
+        await WriteInCorrespondingFile(avgP.ToString(), _optionsMonitor.CurrentValue.PredictFilePathP);
+        await WriteInCorrespondingFile(avgK.ToString(), _optionsMonitor.CurrentValue.PredictFilePathK);
+
     }
 }
 

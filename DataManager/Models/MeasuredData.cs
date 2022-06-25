@@ -12,11 +12,6 @@ public class MeasuredData
     public float K { get; set; }
     [LoadColumn(0)]
     public DateTime CreatedDate { get; set; }
-    [LoadColumn(4)]
-    public float year { get; set; }
-
-    [LoadColumn(5)]
-    public float Quantity { get; set; }
 
 }
 

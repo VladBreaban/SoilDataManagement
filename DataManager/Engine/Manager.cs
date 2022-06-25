@@ -77,6 +77,5 @@ public class Manager : IDataManager
         }
         return result;
     }
-
 }
 

@@ -27,6 +27,8 @@ builder.Services.AddTransient<IElasticHelper, ElasticHelper>();
 builder.Services.AddTransient<IMLPredictor, MLPredictor>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
+builder.Services.Configure<PredictionFileOptionsMonitor>(builder.Configuration.GetSection(nameof(PredictionFileOptionsMonitor)));
+
 
 builder.Services.AddHostedService<ElasticDataSender>();
 builder.Host.UseWindowsService();
