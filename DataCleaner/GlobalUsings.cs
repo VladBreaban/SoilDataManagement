@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataCleaner
-{
-    internal class GlobalUsings
-    {
-    }
-}
+﻿global using DataManager.Models;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using System.Globalization;
+global using System.Text;

@@ -33,14 +33,17 @@ public class Worker : IWorker
                     StringBuilder sb = new StringBuilder();
                     _logger.LogInformation("Sending data to elastic...");
                     //match found --> get data from thinkspeak and send them to elastic server
+                    _logger.LogInformation("Getting data for the current day...");
                     var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
+                    if(!String.IsNullOrEmpty(allDataPath))
+                    {
+                        var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
 
-                    var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
+                        cleanedData.ForEach(async x => { await _elasticHelper.IndexAsync(x, "soil-data"); });
 
-                    cleanedData.ForEach(async x=> { await _elasticHelper.IndexAsync(x, "soil-data"); });
-
-                    await GeneratePredicitonFiles(cleanedData);
-
+                        _logger.LogInformation("Generating prediction files");
+                        await GeneratePredicitonFiles(cleanedData);
+                    } 
                 }
             }
             catch(Exception ex)

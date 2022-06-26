@@ -1,6 +1,4 @@
-﻿using DataManager.Models;
-
-namespace DataCleaner;
+﻿namespace DataCleaner;
 
 public interface IDataCleaner
 {

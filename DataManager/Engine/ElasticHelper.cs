@@ -9,7 +9,7 @@ public class ElasticHelper : IElasticHelper
     {
         _elasticSearchClient = elasticSearchClient;
     }
-    public async Task<IndexResponse> IndexAsync<T>(T data, string index, string id = null) where T : class
+    public async Task<IndexResponse?> IndexAsync<T>(T data, string index, string id = null) where T : class
     {
         try
         {

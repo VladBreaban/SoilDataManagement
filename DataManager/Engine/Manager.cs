@@ -53,7 +53,7 @@ public class Manager : IDataManager
     public async Task<string> ExecuteRestRequest(RestRequest restRequest)
     {
         var result = "";
-      
+
         try
         {
             var restClient = new RestClient(_thingSpeakOptionsMonitor.CurrentValue.BaseUrl);

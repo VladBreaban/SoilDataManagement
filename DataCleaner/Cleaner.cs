@@ -1,9 +1,4 @@
-﻿using DataManager.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Globalization;
-using System.Text;
-
+﻿
 namespace DataCleaner;
 
 public class Cleaner : IDataCleaner
