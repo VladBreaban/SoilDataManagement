@@ -30,8 +30,6 @@ public class Worker : IWorker
                 var now = DateTime.Now.TimeOfDay;
                 if ((now > start) && (now < end))
                 {
-                    StringBuilder sb = new StringBuilder();
-                    _logger.LogInformation("Sending data to elastic...");
                     //match found --> get data from thinkspeak and send them to elastic server
                     _logger.LogInformation("Getting data for the current day...");
                     var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
@@ -39,9 +37,11 @@ public class Worker : IWorker
                     {
                         var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
 
+                        _logger.LogInformation("Sending data to elastic...");
                         cleanedData.ForEach(async x => { await _elasticHelper.IndexAsync(x, "soil-data"); });
 
                         _logger.LogInformation("Generating prediction files");
+
                         await GeneratePredicitonFiles(cleanedData);
                     } 
                 }
