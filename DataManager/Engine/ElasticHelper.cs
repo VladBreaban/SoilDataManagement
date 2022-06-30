@@ -1,6 +1,4 @@
-﻿using DataManager.Models;
-
-namespace DataManager.Engine;
+﻿namespace DataManager.Engine;
 
 public class ElasticHelper : IElasticHelper
 {

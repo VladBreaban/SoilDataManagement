@@ -1,6 +1,4 @@
-﻿using Elasticsearch.Net;
-using Nest;
-
+﻿
 namespace DataManager.Engine;
 
 public class ElasticSearchClient
