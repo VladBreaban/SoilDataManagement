@@ -1,4 +1,5 @@
 using DataManager.MachineLearning;
+using DataManager.Models;
 
 namespace SoilDataManagement.Controllers;
 
@@ -39,7 +40,7 @@ public class NPKMainController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<string> GetAllDataFromCloud()
+    public async Task<List<MeasuredData>> GetAllDataFromCloud()
     {
         string path = String.Empty;
         try
@@ -50,8 +51,18 @@ public class NPKMainController : ControllerBase
         {
             _logger.LogError(ex, ex.Message);
         }
+        return await _dataCleaner.GetCleanData(path);
 
-        return path;
+    }
+
+    [HttpGet]
+
+    public async Task<List<MeasuredData>> GetDataBetweenTimeInterval(DateTime startDate, DateTime endDate)
+    {
+        var allDataPath = await _dataManager.GetDataBetweenTimeInterval(startDate.ToString(), endDate.ToString());
+     
+        return await _dataCleaner.GetCleanData(allDataPath);
+        
     }
 
 }

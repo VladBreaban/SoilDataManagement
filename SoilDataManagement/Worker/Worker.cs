@@ -56,19 +56,23 @@ public class Worker : IWorker
 
     private async Task WriteInCorrespondingFile(string value, string path)
     {
-        StringBuilder sb = new StringBuilder();
-        if (!File.Exists(path))
+        if (!String.IsNullOrEmpty(path))
         {
-            string newLineHeader = string.Join(",", "CreatedDate", "Value");
-            sb.Append(newLineHeader + Environment.NewLine);
-            sb.Append(value + Environment.NewLine);
-            await File.WriteAllTextAsync(path, sb.ToString());
+            StringBuilder sb = new StringBuilder();
+            if (!File.Exists(path))
+            {
+                string newLineHeader = string.Join(",", "CreatedDate", "Value");
+                sb.Append(newLineHeader + Environment.NewLine);
+                sb.Append(value + Environment.NewLine);
+                await File.WriteAllTextAsync(path, sb.ToString());
 
-        }
-        else
-        {
-            sb.Append(value + Environment.NewLine);
-            await File.AppendAllTextAsync(path, sb.ToString());
+            }
+            else
+            {
+                sb.Append(value + Environment.NewLine);
+                await File.AppendAllTextAsync(path, sb.ToString());
+            }
+
         }
     }
 
