@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { MeasuredData } from '../classes/MeasuredData';
 import { Observable } from 'rxjs/internal/Observable';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
+import { MeasuredData } from 'app/classes/MeasuredData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataServiceService {
-
   constructor(private http: HttpClient) { }
 
   public GetDataBetweenTimeInterval(start:string,end:string) : Observable<MeasuredData[]>{
@@ -21,5 +20,4 @@ public GetAllDataFromCloud() : Observable<MeasuredData[]>{
   const url = environment.urlServices + 'GetAllDataFromCloud';
   return this.http.get<MeasuredData[]>(url);
 }
-  
 }
