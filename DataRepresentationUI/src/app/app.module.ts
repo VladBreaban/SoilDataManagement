@@ -8,8 +8,10 @@ import { NavbarModule} from './shared/navbar/navbar.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { DataServiceService } from "./data-service.service";
 
 
 @NgModule({
@@ -24,9 +26,10 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     }),
     SidebarModule,
     NavbarModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [DataServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

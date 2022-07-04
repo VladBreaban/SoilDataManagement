@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  urlServices: 'https://10.232.56.219:7075/NPKMainController/'
+  urlServices: 'https://192.168.100.13:7075/NPKMainController/'
 
 };

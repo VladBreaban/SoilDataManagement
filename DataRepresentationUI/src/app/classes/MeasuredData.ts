@@ -1,6 +1,6 @@
 export class MeasuredData{
-    N: number=0
-    P: number=0
-    K: number=0
-    CreatedDate?:Date
+    n: number=0
+    p: number=0
+    k: number=0
+    createdDate?:Date
 }

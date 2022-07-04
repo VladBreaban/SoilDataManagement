@@ -112,7 +112,11 @@
         <p class="card-category">24 Hours performance</p>
       </div>
       <div class="card-body ">
-        <canvas id=chartHours width="400" height="100"></canvas>
+        <ejs-chart *ngIf="isDataLoaded" id="chart-container" [primaryXAxis]='primaryXAxis'>
+          <e-series-collection>
+              <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='N'></e-series>
+          </e-series-collection>
+      </ejs-chart>
       </div>
       <div class="card-footer ">
         <hr>
@@ -131,7 +135,7 @@
         <p class="card-category">Last Campaign Performance</p>
       </div>
       <div class="card-body ">
-        <canvas id="chartEmail"></canvas>
+        
       </div>
       <div class="card-footer ">
         <div class="legend">
@@ -154,7 +158,7 @@
         <p class="card-category">Line Chart with Points</p>
       </div>
       <div class="card-body">
-        <canvas id="speedChart" width="400" height="100"></canvas>
+        
       </div>
       <div class="card-footer">
         <div class="chart-legend">
