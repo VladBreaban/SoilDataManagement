@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit{
 //Initializing Primary X Axis
 public primaryXAxis: Object = {
   valueType: 'DateTime',
-        intervalType: 'Seconds',
+        intervalType: 'Days',
             rangePadding: 'None'
 };
   public chartData: Object[]=[];

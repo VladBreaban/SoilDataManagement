@@ -51,7 +51,7 @@ public class NPKMainController : ControllerBase
         {
             _logger.LogError(ex, ex.Message);
         }
-        return await _dataCleaner.GetCleanData(path);
+        return await _dataCleaner.GetCleanDataAverageValues(path);
 
     }
 

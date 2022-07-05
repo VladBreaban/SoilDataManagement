@@ -53,6 +53,26 @@ public class Cleaner : IDataCleaner
 
     }
 
+    public async Task<List<MeasuredData>> GetCleanDataAverageValues(string fileToBeCleanedPath)
+    {
+        var cleanedData = await GetCleanData(fileToBeCleanedPath);
+        List<MeasuredData> result = new List<MeasuredData>();
+        var dates = cleanedData.Select(x=> x.CreatedDate.Date.ToString("yyyy-MM-dd")).Distinct().ToList();
+        dates.ForEach(x =>
+        {
+            var obj = new MeasuredData()
+            {
+                CreatedDate = Convert.ToDateTime(x),
+                N= cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.N).Average(),
+                P = cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.P).Average(),
+                K = cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.K).Average()
+            };
+            result.Add(obj);
+        });
+
+        return result;
+    }
+
     public async Task<List<MeasuredData>> GetCleanData(string fileToBeCleanedPath)
     {
         List<MeasuredData> data = new List<MeasuredData>(); 
@@ -76,7 +96,8 @@ public class Cleaner : IDataCleaner
                 {
                     _logger.LogError($"How i get less than 5 values on a row from thing speak? Strangee");
                 }
-                else if(Convert.ToInt32(lineValues.ElementAt(2)) <= maxSensorValue && Convert.ToInt32(lineValues.ElementAt(3)) <= maxSensorValue && Convert.ToInt32(lineValues.ElementAt(4)) <= maxSensorValue)
+                //move 25 in appsettings ( it s the smalles value that can be measured by app and it s not messy)
+                else if((Convert.ToInt32(lineValues.ElementAt(2)) <= maxSensorValue && (Convert.ToInt32(lineValues.ElementAt(2)) >= 25)) && (Convert.ToInt32(lineValues.ElementAt(3)) <= maxSensorValue && (Convert.ToInt32(lineValues.ElementAt(3)) >= 25)) && (Convert.ToInt32(lineValues.ElementAt(4)) <= maxSensorValue && (Convert.ToInt32(lineValues.ElementAt(2)) >= 25)))
                 {
                     //notice that we have the following position in the original csv:
                     // 0 --> created entry date

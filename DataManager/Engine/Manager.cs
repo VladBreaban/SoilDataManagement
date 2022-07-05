@@ -35,6 +35,8 @@ public class Manager : IDataManager
     {
         var result = "";
         var endpoint = String.Format(_thingSpeakOptionsMonitor.CurrentValue.UrlFormat, _thingSpeakOptionsMonitor.CurrentValue.ChannelId, _thingSpeakOptionsMonitor.CurrentValue.FileNname);
+        //do it configurable please
+        endpoint = endpoint + "?days=200";
         try
         {
             _logger.LogInformation($"Getting data from {endpoint}");
