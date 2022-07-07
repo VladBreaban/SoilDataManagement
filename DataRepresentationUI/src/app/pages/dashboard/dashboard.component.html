@@ -77,32 +77,6 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-5 col-md-4">
-            <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-favourite-28 text-primary"></i>
-            </div>
-          </div>
-          <div class="col-7 col-md-8">
-            <div class="numbers">
-              <p class="card-category">Followers</p>
-              <p class="card-title">+45K
-                <p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-refresh"></i> Update now
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 <div class="row">
   <div class="col-md-12">
@@ -129,16 +103,19 @@
         <h5 class="card-title">Phosphorus Evolution</h5>
       </div>
       <div class="card-body">
-        <ejs-chart *ngIf="isDataLoaded" id="chart-container" [primaryXAxis]='primaryXAxis'>
-          <e-series-collection>
-              <e-series [dataSource]='chartDataP' type='Line' xName='x' yName='y' name='Phosphorus'></e-series>
-          </e-series-collection>
-      </ejs-chart>
+
+      <ejs-chart *ngIf="isDataLoaded"  id="chart-container2" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
+        <e-series-collection>
+            <e-series [dataSource]='chartDataP' type='Area' xName='x' yName='y' name='Product X' [border]='border' [animation]='animation' opacity=0.3></e-series>
+        </e-series-collection>
+    </ejs-chart>
       </div>
 
     </div>
   </div>
 </div>
+
+
 <div class="row">
   <div class="col-md-12">
     <div class="card ">
@@ -146,9 +123,10 @@
         <h5 class="card-title">Potassium Evolution</h5>
       </div>
       <div class="card-body">
-        <ejs-chart *ngIf="isDataLoaded" id="chart-container" [primaryXAxis]='primaryXAxis'>
+ 
+        <ejs-chart *ngIf="isDataLoaded"  id="chart-container3" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
           <e-series-collection>
-              <e-series [dataSource]='chartDataK' type='Line' xName='x' yName='y' name='Potassium'></e-series>
+              <e-series [dataSource]='chartDataK' type='Area' xName='x' yName='y' name='Product X' [border]='border' [animation]='animation' opacity=0.3></e-series>
           </e-series-collection>
       </ejs-chart>
       </div>

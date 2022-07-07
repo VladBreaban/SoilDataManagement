@@ -8,7 +8,8 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 
 import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
 import { IconsComponent }           from '../../pages/icons/icons.component';
-
+import { AreaSeriesService } from '@syncfusion/ej2-angular-charts';
+import {  ZoomService } from '@syncfusion/ej2-angular-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -23,7 +24,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DashboardComponent,
     IconsComponent,
   ],
-  providers: [ DateTimeService, LineSeriesService, DateTimeCategoryService, StripLineService,CategoryService,LegendService, TooltipService, DataLabelService]
+  providers: [ DateTimeService,AreaSeriesService, ZoomService, LineSeriesService, DateTimeCategoryService, StripLineService,CategoryService,LegendService, TooltipService, DataLabelService]
 
 })
 
