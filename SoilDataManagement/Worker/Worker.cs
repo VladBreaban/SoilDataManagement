@@ -28,23 +28,23 @@ public class Worker : IWorker
             try
             {
                 var now = DateTime.Now.TimeOfDay;
-                if ((now > start) && (now < end))
-                {
-                    //match found --> get data from thinkspeak and send them to elastic server
-                    _logger.LogInformation("Getting data for the current day...");
-                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
-                    if(!String.IsNullOrEmpty(allDataPath))
-                    {
-                        var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
+               // if ((now > start) && (now < end))
+                //{
+                //    //match found --> get data from thinkspeak and send them to elastic server
+                //    _logger.LogInformation("Getting data for the current day...");
+                //    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
+                //    if(!String.IsNullOrEmpty(allDataPath))
+                //    {
+                //        var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
 
-                        _logger.LogInformation("Sending data to elastic...");
-                        cleanedData.ForEach(async x => { await _elasticHelper.IndexAsync(x, "soil-data"); });
+                //        _logger.LogInformation("Sending data to elastic...");
+                //        cleanedData.ForEach(async x => { await _elasticHelper.IndexAsync(x, "soil-data"); });
 
-                        _logger.LogInformation("Generating prediction files");
+                //        _logger.LogInformation("Generating prediction files");
 
-                        await GeneratePredicitonFiles(cleanedData);
-                    } 
-                }
+                //        await GeneratePredicitonFiles(cleanedData);
+                //    } 
+                //}
             }
             catch(Exception ex)
             {
