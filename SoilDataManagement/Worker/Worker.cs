@@ -1,4 +1,5 @@
-﻿using DataManager.Models;
+﻿using DataManager;
+using DataManager.Models;
 
 namespace SoilDataManagement.Worker;
 
@@ -7,14 +8,14 @@ public class Worker : IWorker
     private readonly ILogger<Worker> _logger;
     private readonly IDataManager _dataManager;
     private readonly IDataCleaner _dataCleaner;
-    private readonly IElasticHelper _elasticHelper;
+    private readonly IDataBaseService _dataBaseelper;
     private readonly IOptionsMonitor<PredictionFileOptionsMonitor> _optionsMonitor;
-    public Worker(ILogger<Worker> logger, IDataManager dataManager, IDataCleaner dataCleaner, IElasticHelper elasticHelper, IOptionsMonitor<PredictionFileOptionsMonitor> optionsMonitor)
+    public Worker(ILogger<Worker> logger, IDataManager dataManager, IDataCleaner dataCleaner, IDataBaseService dataBaseelper, IOptionsMonitor<PredictionFileOptionsMonitor> optionsMonitor)
     {
         _logger = logger;
         _dataManager = dataManager;
         _dataCleaner = dataCleaner;
-        _elasticHelper = elasticHelper;
+        _dataBaseelper = dataBaseelper;
         _optionsMonitor = optionsMonitor;
     }
     public async Task DoWork(CancellationToken cancelToken)
@@ -28,23 +29,22 @@ public class Worker : IWorker
             try
             {
                 var now = DateTime.Now.TimeOfDay;
-               // if ((now > start) && (now < end))
-                //{
-                //    //match found --> get data from thinkspeak and send them to elastic server
-                //    _logger.LogInformation("Getting data for the current day...");
-                //    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
-                //    if(!String.IsNullOrEmpty(allDataPath))
-                //    {
-                //        var cleanedData = await _dataCleaner.GetCleanData(allDataPath);
+                if (true)
+                {
+                    //match found --> get data from thinkspeak and send them to elastic server
+                    _logger.LogInformation("Getting data for the current day...");
+                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-2).ToString(), DateTime.Now.ToString());
+                    if (!String.IsNullOrEmpty(allDataPath))
+                    {
+                        var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
 
-                //        _logger.LogInformation("Sending data to elastic...");
-                //        cleanedData.ForEach(async x => { await _elasticHelper.IndexAsync(x, "soil-data"); });
+                        await _dataBaseelper.InserToDataBase(cleanedData);
 
-                //        _logger.LogInformation("Generating prediction files");
+                        _logger.LogInformation("Generating prediction files");
 
-                //        await GeneratePredicitonFiles(cleanedData);
-                //    } 
-                //}
+                        await GeneratePredicitonFiles(cleanedData);
+                    }
+                }
             }
             catch(Exception ex)
             {
