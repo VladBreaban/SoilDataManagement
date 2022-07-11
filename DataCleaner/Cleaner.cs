@@ -107,6 +107,7 @@ public class Cleaner : IDataCleaner
                     string newLine = string.Join(",", lineValues.ElementAt(0), lineValues.ElementAt(2), lineValues.ElementAt(3), lineValues.ElementAt(4));
                     sb.Append(newLine + Environment.NewLine);
                     DateTime createdDate;
+                    //yyyy-MM-ddTHH:mm:ss+00:00
                     DateTime.TryParseExact(lineValues.ElementAt(0), "yyyy-MM-dd HH:mm:ss UTC", CultureInfo.InvariantCulture, DateTimeStyles.None, out createdDate);
                     data.Add(new MeasuredData
                     {

@@ -1,3 +1,4 @@
+using DataManager;
 using DataManager.MachineLearning;
 using Nest;
 using RestSharp;
@@ -25,6 +26,7 @@ builder.Services.AddTransient<IElasticClient, Nest.ElasticClient>();
 builder.Services.AddTransient<ElasticSearchClient>(x=> new ElasticSearchClient(elasticMetrictsUrl));
 builder.Services.AddTransient<IElasticHelper, ElasticHelper>();
 builder.Services.AddTransient<IMLPredictor, MLPredictor>();
+builder.Services.AddTransient<IDataBaseService, DataBaseService>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
 builder.Services.Configure<PredictionFileOptionsMonitor>(builder.Configuration.GetSection(nameof(PredictionFileOptionsMonitor)));

@@ -1,3 +1,4 @@
+using DataManager;
 using DataManager.MachineLearning;
 using DataManager.Models;
 
@@ -11,16 +12,13 @@ public class NPKMainController : ControllerBase
     private readonly ILogger<NPKMainController> _logger;
     private readonly IDataManager _dataManager;
     private readonly IDataCleaner _dataCleaner;
-    private readonly IElasticHelper _elasticHelper;
-
-    private readonly IMLPredictor _mlPredictor;
-    public NPKMainController(ILogger<NPKMainController> logger, IDataManager dataManager, IDataCleaner dataCleaner, IElasticHelper elasticHelper, IMLPredictor mlPredictor)
+    private readonly IDataBaseService _dbService;
+    public NPKMainController(ILogger<NPKMainController> logger, IDataManager dataManager, IDataCleaner dataCleaner, IDataBaseService dbService)
     {
         _logger = logger;
         _dataManager = dataManager;
         _dataCleaner = dataCleaner;
-        _elasticHelper = elasticHelper; 
-        _mlPredictor = mlPredictor;
+        _dbService = dbService;
     }
 
     [HttpGet]
@@ -42,16 +40,18 @@ public class NPKMainController : ControllerBase
     [HttpGet]
     public async Task<List<MeasuredData>> GetAllDataFromCloud()
     {
-        string path = String.Empty;
+        string path = @"C:\Users\Vlad\Downloads\feeds.csv";
         try
         {
-            path = await _dataManager.GetAllDataFromCloud();
+           // path = await _dataManager.GetAllDataFromCloud();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
         }
-        return await _dataCleaner.GetCleanDataAverageValues(path);
+        var result = await _dataCleaner.GetCleanDataAverageValues(path);
+        await _dbService.InserToDataBase(result);
+        return result;
 
     }
 
