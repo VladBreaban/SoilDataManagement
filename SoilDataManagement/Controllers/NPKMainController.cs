@@ -40,17 +40,16 @@ public class NPKMainController : ControllerBase
     [HttpGet]
     public async Task<List<MeasuredData>> GetAllDataFromCloud()
     {
-        string path = @"C:\Users\Vlad\Downloads\feeds.csv";
+        string path = "";
         try
         {
-           // path = await _dataManager.GetAllDataFromCloud();
+           path = await _dataManager.GetAllDataFromCloud();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
         }
-        var result = await _dataCleaner.GetCleanDataAverageValues(path);
-        await _dbService.InserToDataBase(result);
+         var result = await _dataCleaner.GetCleanDataAverageValues(path);
         return result;
 
     }
