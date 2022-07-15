@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { DataServiceService } from "./data-service.service";
-
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { DataServiceService } from "./data-service.service";
     SidebarModule,
     NavbarModule,
     ToastrModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    MaterialModule
   ],
   providers: [DataServiceService],
   bootstrap: [AppComponent]
