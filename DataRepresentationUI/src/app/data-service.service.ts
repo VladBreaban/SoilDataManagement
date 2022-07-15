@@ -20,4 +20,14 @@ public GetAllDataFromCloud() : Observable<MeasuredData[]>{
   const url = environment.urlServices + 'GetAllDataFromCloud';
   return this.http.get<MeasuredData[]>(url);
 }
+
+public GetAllDataFromDatabase() : Observable<MeasuredData[]>{
+  const url = environment.urlServices + 'GetAllDataFromDatabase';
+  return this.http.get<MeasuredData[]>(url);
+}
+
+public GetDataBetweenTimeIntervalFromDatabase(start:string,end:string) : Observable<MeasuredData[]>{
+  const url = environment.urlServices + 'GetDataBetweenTimeIntervalFromDatabase?startDate='+start+'&endDate='+end;
+  return this.http.get<MeasuredData[]>(url);
+}
 }

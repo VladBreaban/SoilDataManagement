@@ -64,4 +64,19 @@ public class NPKMainController : ControllerBase
         
     }
 
+    [HttpGet]
+    public async Task<List<MeasuredData>> GetAllDataFromDatabase()
+    {
+        var data = await _dbService.GetAllDataFromDatabase();
+        return data;
+    }
+
+    [HttpGet]
+    public async Task<List<MeasuredData>> GetDataBetweenTimeIntervalFromDatabase(DateTime startDate, DateTime endDate)
+    {
+        var data = await _dbService.GetDataBetweenTimeIntervalFromDatabase(startDate, endDate);
+
+        return data;
+
+    }
 }

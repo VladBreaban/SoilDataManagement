@@ -38,24 +38,24 @@ public primaryXAxis: Object = {
 
     constructor(protected data_service:DataServiceService){}
     ngOnInit(){
-      this.data_service.GetAllDataFromCloud().subscribe(x=>{
+      this.data_service.GetAllDataFromDatabase().subscribe(x=>{
         for(let item of x)
         {
           this.chartData.push(new Object({
 
-              x: item.createdDate,
+              x: item.measuredDate,
               y:item.n
           }))
 
           this.chartDataP.push(new Object({
 
-            x: item.createdDate,
+            x: item.measuredDate,
             y:item.p
         }))
 
         this.chartDataK.push(new Object({
 
-          x: item.createdDate,
+          x: item.measuredDate,
           y:item.k
       }))
         }

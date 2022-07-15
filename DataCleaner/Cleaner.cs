@@ -43,7 +43,7 @@ public class Cleaner : IDataCleaner
             {
                 continue;
             }
-            string newLine = string.Join(",", measure.CreatedDate, toBeConcatenate);
+            string newLine = string.Join(",", measure.MeasuredDate, toBeConcatenate);
             sb.Append(newLine + Environment.NewLine);
 
         }
@@ -57,15 +57,15 @@ public class Cleaner : IDataCleaner
     {
         var cleanedData = await GetCleanData(fileToBeCleanedPath);
         List<MeasuredData> result = new List<MeasuredData>();
-        var dates = cleanedData.Select(x=> x.CreatedDate.Date.ToString("yyyy-MM-dd")).Distinct().ToList();
+        var dates = cleanedData.Select(x=> x.MeasuredDate.Date.ToString("yyyy-MM-dd")).Distinct().ToList();
         dates.ForEach(x =>
         {
             var obj = new MeasuredData()
             {
-                CreatedDate = Convert.ToDateTime(x),
-                N= cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.N).Average(),
-                P = cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.P).Average(),
-                K = cleanedData.Where(d => d.CreatedDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.K).Average()
+                MeasuredDate = Convert.ToDateTime(x),
+                N= cleanedData.Where(d => d.MeasuredDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.N).Average(),
+                P = cleanedData.Where(d => d.MeasuredDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.P).Average(),
+                K = cleanedData.Where(d => d.MeasuredDate.Date.ToString("yyyy-MM-dd") == x).Select(x => x.K).Average()
             };
             result.Add(obj);
         });
@@ -111,7 +111,7 @@ public class Cleaner : IDataCleaner
                     DateTime.TryParseExact(lineValues.ElementAt(0), "yyyy-MM-dd HH:mm:ss UTC", CultureInfo.InvariantCulture, DateTimeStyles.None, out createdDate);
                     data.Add(new MeasuredData
                     {
-                        CreatedDate = createdDate,
+                        MeasuredDate = createdDate,
                         N = float.Parse(lineValues.ElementAt(2)),
                         P = float.Parse(lineValues.ElementAt(3)),
                         K = float.Parse(lineValues.ElementAt(4))

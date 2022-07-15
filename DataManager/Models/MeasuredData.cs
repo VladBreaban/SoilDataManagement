@@ -11,7 +11,7 @@ public class MeasuredData
     [LoadColumn(3)]
     public float K { get; set; }
     [LoadColumn(0)]
-    public DateTime CreatedDate { get; set; }
+    public DateTime MeasuredDate { get; set; }
 
 }
 
