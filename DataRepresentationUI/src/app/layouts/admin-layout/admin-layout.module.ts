@@ -11,6 +11,7 @@ import { IconsComponent }           from '../../pages/icons/icons.component';
 import { AreaSeriesService } from '@syncfusion/ej2-angular-charts';
 import {  ZoomService } from '@syncfusion/ej2-angular-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialModule } from 'app/material/material.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     NgbModule,
-    ChartModule
+    ChartModule,
+    MaterialModule
   ],
   declarations: [
     DashboardComponent,

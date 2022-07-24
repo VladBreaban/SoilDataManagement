@@ -78,6 +78,29 @@
     </div>
   </div>
 </div>
+<div class="row" style="margin-right:10px">
+  <div class="col-md-2">
+    <mat-form-field appearance="fill">
+      <mat-label>Start date</mat-label>
+      <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    <mat-form-field appearance="fill">
+      <mat-label>End date</mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    <button mat-flat-button color="primary" style="height:52.75px;" (click)="filterChartsData()">Update charts</button>
+  </div>
+</div>
+
+
 <div class="row">
   <div class="col-md-12">
     <div class="card ">
@@ -85,7 +108,7 @@
         <h5 class="card-title">Nitrogen Evolution</h5>
       </div>
       <div class="card-body" *ngIf="isDataLoaded">
-        <ejs-chart  id="chart-container" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
+        <ejs-chart #chartN id="chart-container" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Area' xName='x' yName='y' name='Product X' [border]='border' [animation]='animation' opacity=0.3></e-series>
         </e-series-collection>
@@ -104,7 +127,7 @@
       </div>
       <div class="card-body">
 
-      <ejs-chart *ngIf="isDataLoaded"  id="chart-container2" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
+      <ejs-chart #chartP *ngIf="isDataLoaded"  id="chart-container2" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
         <e-series-collection>
             <e-series [dataSource]='chartDataP' type='Area' xName='x' yName='y' name='Product X' [border]='border' [animation]='animation' opacity=0.3></e-series>
         </e-series-collection>
@@ -124,7 +147,7 @@
       </div>
       <div class="card-body">
  
-        <ejs-chart *ngIf="isDataLoaded"  id="chart-container3" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
+        <ejs-chart #chartK *ngIf="isDataLoaded"  id="chart-container3" [primaryXAxis]='primaryXAxis' [zoomSettings]='zoom' [legendSettings]='legend'>
           <e-series-collection>
               <e-series [dataSource]='chartDataK' type='Area' xName='x' yName='y' name='Product X' [border]='border' [animation]='animation' opacity=0.3></e-series>
           </e-series-collection>

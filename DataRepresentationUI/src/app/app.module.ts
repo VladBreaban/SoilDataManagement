@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { DataServiceService } from "./data-service.service";
 import { MaterialModule } from './material/material.module';
+import { DatePipe } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MaterialModule } from './material/material.module';
     HttpClientModule,
     MaterialModule
   ],
-  providers: [DataServiceService],
+  providers: [DataServiceService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
