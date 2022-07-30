@@ -43,13 +43,13 @@ public class NPKMainController : ControllerBase
         string path = "";
         try
         {
-           path = await _dataManager.GetAllDataFromCloud();
+            path = await _dataManager.GetAllDataFromCloud();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
         }
-         var result = await _dataCleaner.GetCleanDataAverageValues(path);
+        var result = await _dataCleaner.GetCleanDataAverageValues(path);
         return result;
 
     }
@@ -59,24 +59,21 @@ public class NPKMainController : ControllerBase
     public async Task<List<MeasuredData>> GetDataBetweenTimeInterval(DateTime startDate, DateTime endDate)
     {
         var allDataPath = await _dataManager.GetDataBetweenTimeInterval(startDate.ToString(), endDate.ToString());
-     
+
         return await _dataCleaner.GetCleanData(allDataPath);
-        
+
     }
 
     [HttpGet]
     public async Task<List<MeasuredData>> GetAllDataFromDatabase()
     {
-        var data = await _dbService.GetAllDataFromDatabase();
-        return data;
+        return await _dbService.GetAllDataFromDatabase();
     }
 
     [HttpGet]
     public async Task<List<MeasuredData>> GetDataBetweenTimeIntervalFromDatabase(DateTime startDate, DateTime endDate)
     {
-        var data = await _dbService.GetDataBetweenTimeIntervalFromDatabase(startDate, endDate);
-
-        return data;
+        return await _dbService.GetDataBetweenTimeIntervalFromDatabase(startDate, endDate);
 
     }
 }
