@@ -32,18 +32,18 @@ public class Worker : IWorker
                 if (false)
                 {
                     ////match found --> get data from thinkspeak and send them to elastic server
-                    //_logger.LogInformation("Getting data for the current day...");
-                    //var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-2).ToString(), DateTime.Now.ToString());
-                    //if (!String.IsNullOrEmpty(allDataPath))
-                    //{
-                    //    var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
+                    _logger.LogInformation("Getting data for the current day...");
+                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-2).ToString(), DateTime.Now.ToString());
+                    if (!String.IsNullOrEmpty(allDataPath))
+                    {
+                        var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
 
-                    //    await _dataBaseelper.InserToDataBase(cleanedData);
+                        await _dataBaseelper.InserToDataBase(cleanedData);
 
-                    //    _logger.LogInformation("Generating prediction files");
+                        _logger.LogInformation("Generating prediction files");
 
-                    //    await GeneratePredicitonFiles(cleanedData);
-                   // }
+                        await GeneratePredicitonFiles(cleanedData);
+                    }
                 }
             }
             catch(Exception ex)
