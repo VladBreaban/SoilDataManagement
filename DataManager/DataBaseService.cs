@@ -7,7 +7,7 @@ namespace DataManager;
 
 public class DataBaseService : IDataBaseService
 {
-    private readonly string cs = "Data Source=Teste\\KPIMAILER;Initial Catalog=SoilMonitor;Integrated Security=True;";
+    private readonly string cs = "Data Source=DESKTOP-OIPLHJT;Initial Catalog=SoilMonitor;Integrated Security=True;";
     public async Task InserToDataBase(List<MeasuredData> data)
     {
         using (var con = new SqlConnection(cs))
