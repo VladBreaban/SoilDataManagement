@@ -22,14 +22,15 @@ public class Worker : IWorker
     {
         await Task.Yield();
         // to do--> make it configurable
-        TimeSpan start = new TimeSpan(20, 0, 0); //10 o'clock
-        TimeSpan end = new TimeSpan(20,10, 0); //12 o'clock
+        TimeSpan start = new TimeSpan(20, 0, 0); 
+        TimeSpan end = new TimeSpan(20,5, 0);
+        bool alreadyMeasured = false;
         while (!cancelToken.IsCancellationRequested)
         {
             try
             {
                 var now = DateTime.Now.TimeOfDay;
-                if (false)
+                if (start<=now && now<=end && alreadyMeasured == false)
                 {
                     ////match found --> get data from thinkspeak and send them to elastic server
                     _logger.LogInformation("Getting data for the current day...");
@@ -40,10 +41,11 @@ public class Worker : IWorker
 
                         await _dataBaseelper.InserToDataBase(cleanedData);
 
-                        _logger.LogInformation("Generating prediction files");
-
-                        await GeneratePredicitonFiles(cleanedData);
                     }
+                }
+                else
+                {
+                    alreadyMeasured = false;
                 }
             }
             catch(Exception ex)
