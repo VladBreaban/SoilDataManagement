@@ -48,16 +48,14 @@ void loop() {
     val2 = phosphorous();
     delay(250);
     val3 = potassium();
- String getData = "GET /update?api_key="+ API +"&"+ "field1" +"="+String(val1)+ "&field2" +"="+String(val2)+ "&field3" +"="+String(val3);
+ String url = "GET /update?api_key="+ API +"&"+ "field1" +"="+String(val1)+ "&field2" +"="+String(val2)+ "&field3" +"="+String(val3);
  sendCommand("AT+CIPMUX=1",5,"OK");
  sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
- sendCommand("AT+CIPSEND=0," +String(getData.length()+4),4,">");
- wifiSensor.println(getData);delay(1500);countTrueCommand++;
+ sendCommand("AT+CIPSEND=0," +String(url.length()+4),4,">");
+ wifiSensor.println(url);delay(1500);countTrueCommand++;
  sendCommand("AT+CIPCLOSE=0",5,"OK");
 }
-int getSensorData(){
-  return random(1000); // Replace with 
-}
+
 void sendCommand(String command, int maxTime, char readReplay[]) {
   while(countTimeCommand < (maxTime*1))
   {
@@ -120,7 +118,7 @@ int nitrogen(){
   
   return rezultat;
 }
-
+https://www.circuitschools.com/measure-soil-npk-values-using-soil-npk-sensor-with-arduino/
 int phosphorous(){
   byte val[7];
   byte flag = 1;
