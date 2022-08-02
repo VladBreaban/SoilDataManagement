@@ -1,11 +1,11 @@
 ﻿namespace SoilDataManagement;
 
-    public class ElasticDataSender : IHostedService
+    public class DataSender : IHostedService
     {
-        private ILogger<ElasticDataSender> _logger;
+        private ILogger<DataSender> _logger;
         private IWorker _worker;
 
-        public ElasticDataSender(ILogger<ElasticDataSender> logger, IWorker worker)
+        public DataSender(ILogger<DataSender> logger, IWorker worker)
         {
             _logger = logger;
             _worker = worker;

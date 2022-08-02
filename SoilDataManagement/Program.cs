@@ -32,7 +32,7 @@ builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetS
 builder.Services.Configure<PredictionFileOptionsMonitor>(builder.Configuration.GetSection(nameof(PredictionFileOptionsMonitor)));
 
 
-builder.Services.AddHostedService<ElasticDataSender>();
+builder.Services.AddHostedService<DataSender>();
 builder.Host.UseWindowsService();
 
 var app = builder.Build();
