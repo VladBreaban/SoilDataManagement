@@ -13,6 +13,10 @@ import Chart from 'chart.js';
 
 export class DashboardComponent implements OnInit {
 
+
+  public average1:number=0;
+  public average2:number=0;
+  public average3:number=0;
   public canvas: any;
   public ctx;
   @ViewChild('chartK')
@@ -55,6 +59,10 @@ export class DashboardComponent implements OnInit {
           x: item.measuredDate,
           y: item.n
         }))
+        this.average1+=item.n;
+        this.average2+=item.p;
+        this.average3+=item.k;
+
 
         this.chartDataP.push(new Object({
 
@@ -70,6 +78,10 @@ export class DashboardComponent implements OnInit {
       }
 
       console.log(this.chartData);
+      this.average1=this.average1/this.chartData.length
+      this.average2=this.average2/this.chartData.length
+      this.average3=this.average3/this.chartData.length
+
       this.isDataLoaded = true;
     });
 

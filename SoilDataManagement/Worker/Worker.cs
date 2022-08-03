@@ -10,7 +10,7 @@ public class Worker : IWorker
     private readonly IDataCleaner _dataCleaner;
     private readonly IDataBaseService _dataBaseelper;
     private readonly IOptionsMonitor<PredictionFileOptionsMonitor> _optionsMonitor;
-    public Worker(ILogger<Worker> logger, IDataManager dataManager, IDataCleaner dataCleaner, IDataBaseService dataBaseelper, IOptionsMonitor<PredictionFileOptionsMonitor> optionsMonitor)
+    public Worker(ILogger<Worker> logger, IDataManager dataManager,IDataCleaner dataCleaner,IDataBaseService dataBaseelper, IOptionsMonitor<PredictionFileOptionsMonitor> optionsMonitor)
     {
         _logger = logger;
         _dataManager = dataManager;
@@ -32,16 +32,15 @@ public class Worker : IWorker
                 var now = DateTime.Now.TimeOfDay;
                 if (start<=now && now<=end && alreadyMeasured == false)
                 {
-                    ////match found --> get data from thinkspeak and send them to elastic server
-                    _logger.LogInformation("Getting data for the current day...");
-                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
-                    if (!String.IsNullOrEmpty(allDataPath))
-                    {
-                        var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
+                //    _logger.LogInformation("Getting data for the current day...");
+                //    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
+                //    if (!String.IsNullOrEmpty(allDataPath))
+                //    {
+                //        var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
 
-                        await _dataBaseelper.InserToDataBase(cleanedData);
+                //        await _dataBaseelper.InserToDataBase(cleanedData);
 
-                    }
+                //    }
                 }
                 else
                 {
