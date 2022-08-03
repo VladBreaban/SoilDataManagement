@@ -34,7 +34,7 @@ public class Worker : IWorker
                 {
                     ////match found --> get data from thinkspeak and send them to elastic server
                     _logger.LogInformation("Getting data for the current day...");
-                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-2).ToString(), DateTime.Now.ToString());
+                    var allDataPath = await _dataManager.GetDataBetweenTimeInterval(DateTime.Now.AddDays(-1).ToString(), DateTime.Now.ToString());
                     if (!String.IsNullOrEmpty(allDataPath))
                     {
                         var cleanedData = await _dataCleaner.GetCleanDataAverageValues(allDataPath);
