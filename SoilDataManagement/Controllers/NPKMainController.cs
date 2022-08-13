@@ -67,6 +67,7 @@ public class NPKMainController : ControllerBase
     [HttpGet]
     public async Task<List<MeasuredData>> GetAllDataFromDatabase()
     {
+        
         return await _dbService.GetAllDataFromDatabase();
     }
 

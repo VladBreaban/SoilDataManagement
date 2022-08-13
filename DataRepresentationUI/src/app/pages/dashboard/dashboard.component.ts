@@ -55,33 +55,25 @@ export class DashboardComponent implements OnInit {
     this.data_service.GetAllDataFromDatabase().subscribe(x => {
       for (let item of x) {
         this.chartData.push(new Object({
-
           x: item.measuredDate,
           y: item.n
         }))
         this.average1+=item.n;
         this.average2+=item.p;
         this.average3+=item.k;
-
-
         this.chartDataP.push(new Object({
-
           x: item.measuredDate,
           y: item.p
         }))
 
         this.chartDataK.push(new Object({
-
           x: item.measuredDate,
           y: item.k
         }))
       }
-
-      console.log(this.chartData);
       this.average1=this.average1/this.chartData.length
       this.average2=this.average2/this.chartData.length
       this.average3=this.average3/this.chartData.length
-
       this.isDataLoaded = true;
     });
 
@@ -90,6 +82,9 @@ export class DashboardComponent implements OnInit {
   filterChartsData() {
     console.log(this.datePipe.transform(this.startDate, 'yyyy-MM-dd'));
     console.log(this.endDate.toString());
+    this.average1=0;
+    this.average2=0;
+    this.average3=0;
     this.chartData = [];
     this.chartDataP = [];
     this.chartDataK = [];
@@ -101,12 +96,18 @@ export class DashboardComponent implements OnInit {
           y: item.n
         }))
 
+        this.average1+=item.n;
+        this.average2+=item.p;
+        this.average3+=item.k;
+
         this.chartDataP.push(new Object({
 
           x: item.measuredDate,
           y: item.p
         }))
-
+        this.average1=this.average1/this.chartData.length
+        this.average2=this.average2/this.chartData.length
+        this.average3=this.average3/this.chartData.length
         this.chartDataK.push(new Object({
 
           x: item.measuredDate,

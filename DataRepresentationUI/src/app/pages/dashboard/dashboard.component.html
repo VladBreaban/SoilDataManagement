@@ -5,13 +5,13 @@
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-globe text-warning"></i>
+              <i class="nc-icon nc-vector text-danger"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Average Value For N</p>
-              <p class="card-title">{{average1}}
+              <p class="card-title">{{average1 | number: '2.0'}}
                 <p>
             </div>
           </div>
@@ -20,7 +20,7 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-refresh"></i> 
+          <i class="fa fa-calendar-o"></i> Average value
         </div>
       </div>
     </div>
@@ -31,13 +31,13 @@
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-money-coins text-success"></i>
+              <i class="nc-icon nc-vector text-danger"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Average Value For  P</p>
-              <p class="card-title">{{average2}}
+              <p class="card-title">{{average2 | number: '2.0'}}
                 <p>
             </div>
           </div>
@@ -46,7 +46,7 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-calendar-o"></i> Last day
+          <i class="fa fa-calendar-o"></i> Average value
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Average Value For K</p>
-              <p class="card-title">{{average3}}
+              <p class="card-title">{{average3 | number: '2.0'}}
                 <p>
             </div>
           </div>
@@ -72,7 +72,7 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-clock-o"></i> In the last hour
+          <i class="fa fa-calendar-o"></i> Average value
         </div>
       </div>
     </div>
@@ -96,7 +96,8 @@
     </mat-form-field>
   </div>
   <div class="col-md-2">
-    <button mat-flat-button color="primary" style="height:52.75px;" (click)="filterChartsData()">Update charts</button>
+    <button mat-flat-button color="primary" style="height:52.75px;" (click)="filterChartsData()">
+      Update charts</button>
   </div>
 </div>
 
