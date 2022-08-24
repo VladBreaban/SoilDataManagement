@@ -42,7 +42,7 @@ for i in range(0, len(seriesdata)):
 # setting the index again
 new_seriesdata.index = new_seriesdata.date
 new_seriesdata.drop('date', axis=1, inplace=True)
-# creating train and test sets this comprises the entire data’s present in the dataset
+# creating train and test sets this comprises the entire dataï¿½s present in the dataset
 myseriesdataset = new_seriesdata.values
 totrain = myseriesdataset
 # converting dataset into x0_train and y_train
