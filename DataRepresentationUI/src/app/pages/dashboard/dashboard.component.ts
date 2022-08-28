@@ -72,8 +72,8 @@ export class DashboardComponent implements OnInit {
         }))
       }
       this.average1=this.average1/this.chartData.length
-      this.average2=this.average2/this.chartData.length
-      this.average3=this.average3/this.chartData.length
+      this.average2=this.average2/this.chartDataP.length
+      this.average3=this.average3/this.chartDataK.length
       this.isDataLoaded = true;
     });
 
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     this.average3=0;
     this.chartData = [];
     this.chartDataP = [];
-    this.chartDataK = [];
+    this.chartDataK =[];
     this.data_service.GetDataBetweenTimeIntervalFromDatabase(this.datePipe.transform(this.startDate, 'yyyy-MM-dd'), this.datePipe.transform(this.endDate, 'yyyy-MM-dd')).subscribe(x => {
       for (let item of x) {
         this.chartData.push(new Object({
@@ -105,15 +105,17 @@ export class DashboardComponent implements OnInit {
           x: item.measuredDate,
           y: item.p
         }))
-        this.average1=this.average1/this.chartData.length
-        this.average2=this.average2/this.chartData.length
-        this.average3=this.average3/this.chartData.length
+
         this.chartDataK.push(new Object({
 
           x: item.measuredDate,
           y: item.k
         }))
       }
+
+      this.average1=this.average1/this.chartData.length
+      this.average2=this.average2/this.chartDataP.length
+      this.average3=this.average3/this.chartDataK.length
     });
     console.log(this.chartData);
     console.log(this.chartDataP);
