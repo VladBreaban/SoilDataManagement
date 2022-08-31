@@ -13,7 +13,6 @@ builder.WebHost.UseKestrel();
 //builder.WebHost.UseUrls("http://*:7075");
 //builder.WebHost.UseIIS();
 builder.Services.AddControllers();
-var elasticMetrictsUrl = builder.Configuration.GetValue<string>("MetricsElasticUri") ?? "http://lb-2kag5kqqav4cg.centralus.cloudapp.azure.com:9200/";
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,8 +22,6 @@ builder.Services.AddTransient<IDataManager, Manager>();
 builder.Services.AddTransient<IDataCleaner, Cleaner>();
 builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddTransient<IElasticClient, Nest.ElasticClient>();
-builder.Services.AddTransient<ElasticSearchClient>(x=> new ElasticSearchClient(elasticMetrictsUrl));
-builder.Services.AddTransient<IElasticHelper, ElasticHelper>();
 builder.Services.AddTransient<IMLPredictor, MLPredictor>();
 builder.Services.AddTransient<IDataBaseService, DataBaseService>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
