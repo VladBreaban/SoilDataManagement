@@ -3,8 +3,9 @@ using DataManager.MachineLearning;
 using Nest;
 using RestSharp;
 using SoilDataManagement;
-
+var webApplicationOptions = new WebApplicationOptions() { ContentRootPath = AppContext.BaseDirectory, Args = args, ApplicationName = System.Diagnostics.Process.GetCurrentProcess().ProcessName };
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseWindowsService();
 // Add services to the container.
 var fact = NLogBuilder.ConfigureNLog("nlog.config");
 var logger = fact.GetCurrentClassLogger();
@@ -27,10 +28,8 @@ builder.Services.AddTransient<IDataBaseService, DataBaseService>();
 builder.Services.Configure<ThingSpeakOptionsMonitor>(builder.Configuration.GetSection(nameof(ThingSpeakOptionsMonitor)));
 builder.Services.Configure<DataCleanerOptionsMonitor>(builder.Configuration.GetSection(nameof(DataCleanerOptionsMonitor)));
 builder.Services.Configure<PredictionFileOptionsMonitor>(builder.Configuration.GetSection(nameof(PredictionFileOptionsMonitor)));
-
-
 builder.Services.AddHostedService<DataSender>();
-builder.Host.UseWindowsService();
+
 
 var app = builder.Build();
 
