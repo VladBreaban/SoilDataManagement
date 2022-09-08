@@ -4,13 +4,13 @@ using Nest;
 using RestSharp;
 using SoilDataManagement;
 var webApplicationOptions = new WebApplicationOptions() { ContentRootPath = AppContext.BaseDirectory, Args = args, ApplicationName = System.Diagnostics.Process.GetCurrentProcess().ProcessName };
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(webApplicationOptions);
 builder.Host.UseWindowsService();
 // Add services to the container.
 var fact = NLogBuilder.ConfigureNLog("nlog.config");
 var logger = fact.GetCurrentClassLogger();
 builder.Host.UseNLog();
-builder.WebHost.UseKestrel();
+//builder.WebHost.UseKestrel();
 //builder.WebHost.UseUrls("http://*:7075");
 //builder.WebHost.UseIIS();
 builder.Services.AddControllers();
@@ -34,19 +34,18 @@ builder.Services.AddHostedService<DataSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseAuthorization();
 
-app.MapControllers();
-string localIP = LocalIPAddress();
+//app.MapControllers();
+//string localIP = LocalIPAddress();
 
-app.Urls.Add("http://" + localIP + ":5077");
-app.Urls.Add("https://" + localIP + ":7075");
+//app.Urls.Add("http://" + localIP + ":5077");
+//app.Urls.Add("https://" + localIP + ":7075");
 static string LocalIPAddress()
 {
     using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
